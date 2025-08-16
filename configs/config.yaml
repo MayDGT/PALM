@@ -1,0 +1,25 @@
+### Core inputs
+# Path to mission YAML used by `ScenarioState` and `MCTS`.
+# This path is resolved relative to the project root.
+mission_yaml: "data/case_studies/mission2.yaml"
+
+# Total number of MCTS iterations (total simulations allowed)
+budget: 200
+
+# Parent folder to store generated test artifacts (yaml, ulg, png)
+tests_folder: "/data/results/"
+
+### Scenario hyperparameters
+# Maximum number of obstacles allowed in a scenario before it is considered terminal
+max_obstacles: 3
+
+### MCTS hyperparameters
+# UCB1 exploration constant (higher favors exploration)
+exploration_rate: 0.70710678  # ~ 1 / sqrt(2)
+
+# Progressive widening: scaling constant (C) and exponent (alpha)
+C: 0.5
+alpha: 0.5
+
+# Progressive widening: per-layer widening multipliers
+C_list: [0.4, 0.5, 0.6, 0.7]
