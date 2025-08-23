@@ -1,3 +1,5 @@
+"""This is the main entry point of the PALM standalone executable."""
+
 from __future__ import annotations
 
 import os

@@ -7,12 +7,18 @@
 *A Path Blocking Monte Carlo Tree Search approach for UAV test-case generation*
 
 ## Overview
-PALM (**PA**th b**L**ocking **M**onte Carlo Tree Search) is a UAV test-case generator that adopts Monte Carlo Tree Search (MCTS) to search for different placements of obstacles in the environment. Adding a new obstacle is done by increasing the tree depth; instead, the addition of a new node in the current tree level is done to optimise the placement and the dimensions of the last added obstacle. 
+PALM (**PA**th b**L**ocking **M**onte Carlo Tree Search) is a UAV test-case generator that adopts Monte Carlo Tree Search (MCTS) to search for different placements of obstacles in the environment. 
+In this framework, adding a new obstacle is done by increasing the tree depth; instead, the addition of a new node in the current tree level is done to optimise the placement and the dimensions of the last added obstacle. 
+
+The algorithm employs two key mechanisms to balance exploration and exploitation: UCB1 selection and progressive widening. 
+The exploration rate (`exploration_rate`) parameter controls the balance between exploring less-visited nodes and exploiting high-reward nodes in the UCB1 formula, with higher values favoring exploration and lower values favoring exploitation. 
+The progressive widening mechanism dynamically controls the number of children allowed at each tree node based on the node's visit count, preventing the tree from becoming too wide at shallow levels while allowing more exploration at deeper levels. 
+This mechanism uses three parameters: `C` (scaling constant), `alpha` (exponent controlling the growth rate), and `C_list` (layer-specific multipliers for fine-grained control across different tree depths).
 
 ## Requirements
 - Conda (Miniconda/Anaconda)
 - Python 3.9+
-- Aerialist (runtime and Python package)
+- Aerialist (runtime)
 
 ## Installation
 1) Create and activate a conda environment named `palm`
@@ -57,11 +63,9 @@ max_obstacles: 3
 # UCB1 exploration constant (higher favors exploration)
 exploration_rate: 0.70710678  # ~ 1 / sqrt(2)
 
-# Progressive widening: scaling constant (C) and exponent (alpha)
+# Progressive widening: scaling constant (C), exponent (alpha), and per-layer widening multipliers (C_list)
 C: 0.5
 alpha: 0.5
-
-# Progressive widening: per-layer widening multipliers
 C_list: [0.4, 0.5, 0.6, 0.7]
 ```
 
@@ -70,7 +74,7 @@ Notes:
 - On Windows, prefer paths like `D:/data/results/`.
 - Ensure `C_list` length covers the maximum tree depth you expect (often ≥ `max_obstacles`).
 
-## Running
+## Usage
 Basic run with default `configs/config.yaml`:
 ```bash
 python main.py
