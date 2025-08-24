@@ -1,12 +1,14 @@
 version: 2
 
-# Build environment
-python:
+build:
   os: ubuntu-22.04
-  version: 3.9
+  tools:
+    python: "3.9"
+
+sphinx:
+  configuration: docs/source/conf.py  # 你的Sphinx配置路径
+
+python:
   install:
     - requirements: docs/requirements.txt
 
-# Optional: build Sphinx using the 'docs' folder
-sphinx:
-  configuration: docs/source/conf.py
