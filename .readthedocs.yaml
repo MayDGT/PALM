@@ -2,6 +2,7 @@ version: 2
 
 # Build environment
 python:
+  os: ubuntu-22.04
   version: 3.9
   install:
     - requirements: docs/requirements.txt
