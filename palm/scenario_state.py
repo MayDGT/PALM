@@ -5,7 +5,6 @@ import random
 import logging
 import math
 import numpy as np
-import pandas
 import subprocess
 from copy import deepcopy
 from typing import List, Tuple

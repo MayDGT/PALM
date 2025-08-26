@@ -34,10 +34,11 @@ conda activate palm
 cd Aerialist/samples
 ```
 
-3) Clone this project
+3) Clone this project and install dependencies
 ```bash
 git clone https://github.com/MayDGT/PALM.git
 cd PALM
+pip install -r requirements.txt
 ```
 
 ## Configuration
