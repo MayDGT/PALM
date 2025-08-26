@@ -41,6 +41,11 @@ cd PALM
 pip install -r requirements.txt
 ```
 
+4) Create the required directories
+```bash
+mkdir -p logs results/logs
+```
+
 ## Configuration
 All runtime parameters are configured in `configs/config.yaml`.
 
@@ -48,13 +53,13 @@ All runtime parameters are configured in `configs/config.yaml`.
 ### Core inputs
 # Path to mission YAML used by `ScenarioState` and `MCTS`.
 # This path is resolved relative to the project root.
-mission_yaml: "data/case_studies/mission1.yaml"
+mission_yaml: "case_studies/mission1.yaml"
 
 # Total number of MCTS iterations (total simulations allowed)
-budget: 200
+budget: 100
 
 # Parent folder to store generated test artifacts (yaml, ulg, png)
-tests_folder: "data/results"
+tests_folder: "generated_tests"
 
 ### Scenario hyperparameters
 # Maximum number of obstacles allowed in a scenario before it is considered terminal
@@ -87,7 +92,7 @@ Output:
   - `test_i.ulg`: Flight log
   - `test_i.png`: Plot
 
-**Note**: The results folder (`data/results/`) is automatically created if it doesn't exist.
+**Note**: The tests_folder (e.g., `generated_tests`) is automatically created if it doesn't exist.
 
 ## Project structure
 ```

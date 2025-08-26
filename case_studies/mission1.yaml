@@ -1,7 +1,7 @@
 drone:
   port: ros #{sitl, ros, cf}
-  params_file: case_studies/mission-params.csv 
-  mission_file: case_studies/mission1.plan
+  params_file: data/case_studies/mission-params.csv
+  mission_file: data/case_studies/mission1.plan
 
 simulation:
   simulator: ros #{gazebo, jmavsim, ros} 

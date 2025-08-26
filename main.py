@@ -56,7 +56,7 @@ def main() -> None:
 
         mission_yaml_cfg = cfg.get("mission_yaml")
         budget = int(cfg.get("budget", 100))
-        tests_folder_cfg = cfg.get("tests_folder", "data/results/")
+        tests_folder_cfg = cfg.get("tests_folder", "generated_tests")
 
         # Optional hyperparameters
         max_obstacles = int(cfg.get("max_obstacles", 3))

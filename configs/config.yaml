@@ -1,13 +1,13 @@
 ### Core inputs
 # Path to mission YAML used by `ScenarioState` and `MCTS`.
 # This path is resolved relative to the project root.
-mission_yaml: "data/case_studies/mission2.yaml"
+mission_yaml: "case_studies/mission2.yaml"
 
 # Total number of MCTS iterations (total simulations allowed)
 budget: 100
 
 # Parent folder to store generated test artifacts (yaml, ulg, png)
-tests_folder: "/data/results/"
+tests_folder: "generated_tests"
 
 ### Scenario hyperparameters
 # Maximum number of obstacles allowed in a scenario before it is considered terminal
