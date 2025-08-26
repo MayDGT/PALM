@@ -6,9 +6,9 @@ All runtime parameters are configured in `configs/config.yaml`:
 .. code-block:: yaml
 
    ### Core inputs
-   mission_yaml: "data/case_studies/mission1.yaml"
-   budget: 200
-   tests_folder: "data/results"
+   mission_yaml: "case_studies/mission1.yaml"
+   budget: 100
+   tests_folder: "generated_tests"
 
    ### Scenario hyperparameters
    max_obstacles: 3

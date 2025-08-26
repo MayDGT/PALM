@@ -24,3 +24,10 @@ Installation
 
    git clone https://github.com/MayDGT/PALM.git
    cd PALM
+   pip install -r requirements.txt
+
+4) Create the required directories:
+
+.. code-block:: bash
+
+   mkdir -p logs results/logs

@@ -14,4 +14,4 @@ Output:
   - `test_i.ulg`: Flight log
   - `test_i.png`: Plot
 
-**Note**: The results folder (`data/results/`) is automatically created if it doesn't exist.
+**Note**: The tests_folder (e.g., `generated_tests`) is automatically created if it doesn't exist.
