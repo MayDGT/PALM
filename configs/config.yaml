@@ -4,7 +4,7 @@
 mission_yaml: "data/case_studies/mission2.yaml"
 
 # Total number of MCTS iterations (total simulations allowed)
-budget: 200
+budget: 100
 
 # Parent folder to store generated test artifacts (yaml, ulg, png)
 tests_folder: "/data/results/"
