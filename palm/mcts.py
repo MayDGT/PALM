@@ -4,8 +4,8 @@ import math
 import random
 from datetime import datetime
 from typing import List, Optional
-from scenario_state import ScenarioState
-from testcase import TestCase
+from .scenario_state import ScenarioState
+from .testcase import TestCase
 import sys
 import os
 

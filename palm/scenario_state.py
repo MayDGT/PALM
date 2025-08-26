@@ -11,7 +11,7 @@ from copy import deepcopy
 from typing import List, Tuple
 from aerialist.px4.drone_test import DroneTest
 from aerialist.px4.obstacle import Obstacle
-from testcase import TestCase
+from .testcase import TestCase
 from utils import random_nonintersecting_rectangle, get_boundary_distance, random_rectangle, plot_rectangle, circle_coverage, random_nonintersecting_circle
 
 
