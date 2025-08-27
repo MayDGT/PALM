@@ -14,6 +14,7 @@ Contents:
    installation
    configuration
    usage
+   reproducibility
 
 API Reference
 -------------

@@ -1,10 +1,8 @@
-# PALM for UAV Testing
+# PALM
 
 ![Python 3.9](https://img.shields.io/badge/python-3.9+-blue?logo=python)
 [![License](https://img.shields.io/badge/license-GPL--3.0-green)](https://choosealicense.com/licenses/gpl-3.0/)
-[![Conference](https://img.shields.io/badge/conference-ICST%202025-red)](https://conf.researchr.org/home/icst-2025)
-
-*A Path Blocking Monte Carlo Tree Search approach for UAV test-case generation*
+*A MCTS-based Tool for Testing Unmanned Aerial Vehicles*
 
 ## Overview
 PALM (**PA**th b**L**ocking **M**onte Carlo Tree Search) is a UAV test-case generator that adopts Monte Carlo Tree Search (MCTS) to search for different placements of obstacles in the environment. 
@@ -94,34 +92,50 @@ Output:
 
 **Note**: The tests_folder (e.g., `generated_tests`) is automatically created if it doesn't exist.
 
+## Reproducibility
+Using the default configuration in `configs/config.yaml` (with `budget: 100`), PALM will generate 100 test scenarios. The expected outputs and performance are 
+summarized below.
+
+### Output Structure
+- **`results/`**: Contains 100 scenario plot images 
+- **`results/logs/`**: Contains 100 scenario flight logs 
+- **`generated_tests/<timestamp>/`**: Contains failure cases only, each with:
+  - `test_i.yaml`: Generated test case configuration
+  - `test_i.png`: Scenario visualization
+  - `test_i.ulg`: Flight log
+
+### Performance Expectations
+- **Runtime**: Approximately 7 hours on our test machine
+- **Failure Detection**: Around 47 failure scenarios totally found
+- **Test Machine Configuration**:
+  - OS: Ubuntu 20.04
+  - Memory: 32GB
+  - CPU: Intel Core i7-13700K
+- **Note**: Due to the randomness in the algorithm and the non-deterministic nature of the system under test, results may vary between runs
+
+### Running the Experiment
+To reproduce the results, run:
+```bash
+python main.py
+```
+
 ## Project structure
 ```
-UAV-Testing-Competition/
+PALM/
 ├─ main.py
 ├─ configs/
 │  └─ config.yaml
-├─ data/
-│  └─ case_studies/
+├─ case_studies/
 ├─ palm/
 │  ├─ mcts.py
 │  ├─ scenario_state.py
 │  ├─ testcase.py
 │  └─ utils.py
+├─ results/ 
+│  └─ logs/ 
 └─ logs/ (created at runtime)
 ```
 
-## Reference
-For academic publications, please consider the following reference:
-```bibtex
-@inproceedings{tang2025palm,
-  title={PALM at the ICST 2025 Tool Competition--UAV Testing Track},
-  author={Tang, Shuncheng and Zhang, Zhenya and Cetinkaya, Ahmet and Arcaini, Paolo},
-  booktitle={2025 IEEE Conference on Software Testing, Verification and Validation (ICST)},
-  pages={823--824},
-  year={2025},
-  organization={IEEE}
-}
-```
 
 
 
