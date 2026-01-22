@@ -68,9 +68,21 @@ max_obstacles: 3
 exploration_rate: 0.70710678  # ~ 1 / sqrt(2)
 
 # Progressive widening: scaling constant (C), exponent (alpha), and per-layer widening multipliers (C_list)
-C: 0.5
-alpha: 0.5
-C_list: [0.4, 0.5, 0.6, 0.7]
+# The progressive widening formula: max_children = C_list[layer] * (visits ** alpha)
+C: 0.5                    # Scaling constant (stored but currently not directly used; C_list is used instead)
+alpha: 0.5                # Exponent controlling how visit count affects allowed children
+                          #   - Larger alpha (e.g., 0.7-1.0): faster growth of allowed children as visits increase
+                          #     → More exploration, tree widens quickly, more diverse scenarios explored
+                          #   - Smaller alpha (e.g., 0.3-0.5): slower growth, tree stays narrower longer
+                          #     → More exploitation, focuses on promising branches, fewer children per node
+C_list: [0.4, 0.5, 0.6, 0.7]  # Per-layer widening multipliers for fine-grained control across tree depths
+                               #   - Each value corresponds to a tree depth/layer (index 0 = root, 1 = depth 1, etc.)
+                               #   - Larger values: allow more children at that layer → more exploration at that depth
+                               #   - Smaller values: restrict children at that layer → more exploitation at that depth
+                               #   - Typically increases with depth (as shown) to allow more exploration deeper in tree
+                               #   Design rationale: Progressive increase (0.4→0.7) restricts shallow tree width to
+                               #   prevent combinatorial explosion, while allowing deeper exploration for fine-tuning
+                               #   obstacle placements as the search space becomes more constrained
 ```
 
 Notes:
@@ -122,15 +134,15 @@ python main.py
 ## Project structure
 ```
 PALM/
-├─ main.py
+├─ main.py                    # Main entry point: loads configuration, initializes MCTS, runs test generation, and saves results
 ├─ configs/
-│  └─ config.yaml
-├─ case_studies/
+│  └─ config.yaml             # Configuration file containing runtime parameters (mission path, budget, MCTS hyperparameters)
+├─ case_studies/              # Directory containing mission YAML files and test artifacts (logs, plots, flight plans)
 ├─ palm/
-│  ├─ mcts.py
-│  ├─ scenario_state.py
-│  ├─ testcase.py
-│  └─ utils.py
+│  ├─ mcts.py                 # Monte Carlo Tree Search implementation with UCB1 selection and progressive widening
+│  ├─ scenario_state.py       # Manages scenario state: obstacle generation/modification, trajectory simulation, reward calculation
+│  ├─ testcase.py             # Wraps DroneTest execution, handles test runs via agents, computes distances, provides plotting/saving
+│  └─ utils.py                # Utility functions for geometric operations (random rectangles, circle coverage, boundary calculations)
 ├─ results/ 
 │  └─ logs/ 
 └─ logs/ (created at runtime)
