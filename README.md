@@ -1,8 +1,8 @@
-# PALM
+# PALM: An MCTS-based Tool for Testing Unmanned Aerial Vehicles
 
 ![Python 3.9](https://img.shields.io/badge/python-3.9+-blue?logo=python)
 [![License](https://img.shields.io/badge/license-GPL--3.0-green)](https://choosealicense.com/licenses/gpl-3.0/)
-*A MCTS-based Tool for Testing Unmanned Aerial Vehicles*
+
 
 ## Overview
 PALM (**PA**th b**L**ocking **M**onte Carlo Tree Search) is a UAV test-case generator that adopts Monte Carlo Tree Search (MCTS) to search for different placements of obstacles in the environment. 
