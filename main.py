@@ -64,6 +64,7 @@ def main() -> None:
         C = float(cfg.get("C", 0.5))
         alpha = float(cfg.get("alpha", 0.5))
         C_list = cfg.get("C_list", [0.4, 0.5, 0.6, 0.7])
+        random_seed = int(cfg.get("random_seed", 0))
 
         # Normalize paths to absolute to work with ScenarioState's internal joining
         mission_yaml = (
@@ -84,6 +85,7 @@ def main() -> None:
             C=C,
             alpha=alpha,
             C_list=C_list,
+            random_seed=random_seed,
         )
         test_cases = generator.generate(budget)
 
@@ -105,5 +107,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
 

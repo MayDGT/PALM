@@ -36,7 +36,7 @@ class Node:
 class MCTS:
     """Monte Carlo Tree Search driver for generating challenging test cases."""
 
-    def __init__(self, case_study_file: str, max_obstacles: int = 3, exploration_rate: float = 1 / math.sqrt(2), C: float = 0.5, alpha: float = 0.5, C_list: List[float] | None = None) -> None:
+    def __init__(self, case_study_file: str, max_obstacles: int = 3, exploration_rate: float = 1 / math.sqrt(2), C: float = 0.5, alpha: float = 0.5, C_list: List[float] | None = None, random_seed: int = 0) -> None:
         """Create a new MCTS instance from a case study YAML file.
 
         Args:
@@ -46,6 +46,7 @@ class MCTS:
             C: Progressive widening scaling constant.
             alpha: Progressive widening exponent.
             C_list: Layer-wise widening multipliers.
+            random_seed: Seed for random number generator.
         """
         self.initial_state = ScenarioState(case_study_file, max_obstacles=max_obstacles)
         self.root = Node(self.initial_state, None)
@@ -56,6 +57,10 @@ class MCTS:
         self.C = C
         self.alpha = alpha
         self.C_list = C_list if C_list is not None else [0.4, 0.5, 0.6, 0.7]
+        self.random_seed = random_seed
+
+        if self.random_seed > 0:
+            random.seed(self.random_seed)
 
         # results
         self.test_cases: List[TestCase] = []

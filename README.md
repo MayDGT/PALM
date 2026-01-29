@@ -71,24 +71,30 @@ exploration_rate: 0.70710678  # ~ 1 / sqrt(2)
 # The progressive widening formula: max_children = C_list[layer] * (visits ** alpha)
 C: 0.5                    # Scaling constant (stored but currently not directly used; C_list is used instead)
 alpha: 0.5                # Exponent controlling how visit count affects allowed children
-                          #   - Larger alpha (e.g., 0.7-1.0): faster growth of allowed children as visits increase
-                          #     → More exploration, tree widens quickly, more diverse scenarios explored
-                          #   - Smaller alpha (e.g., 0.3-0.5): slower growth, tree stays narrower longer
-                          #     → More exploitation, focuses on promising branches, fewer children per node
 C_list: [0.4, 0.5, 0.6, 0.7]  # Per-layer widening multipliers for fine-grained control across tree depths
-                               #   - Each value corresponds to a tree depth/layer (index 0 = root, 1 = depth 1, etc.)
-                               #   - Larger values: allow more children at that layer → more exploration at that depth
-                               #   - Smaller values: restrict children at that layer → more exploitation at that depth
-                               #   - Typically increases with depth (as shown) to allow more exploration deeper in tree
-                               #   Design rationale: Progressive increase (0.4→0.7) restricts shallow tree width to
-                               #   prevent combinatorial explosion, while allowing deeper exploration for fine-tuning
-                               #   obstacle placements as the search space becomes more constrained
+random_seed: 42            # Random seed for reproducibility (0 = no seed/non-deterministic, positive int = fixed seed for reproducible results)
 ```
 
-Notes:
+### Parameter Details
+
+**Progressive Widening Parameters:**
+
+- **`C`**: Scaling constant (stored but currently not directly used; `C_list` is used instead)
+- **`alpha`**: Exponent controlling how visit count affects allowed children
+  - **Larger alpha** (e.g., 0.7-1.0): Faster growth of allowed children as visits increase → More exploration, tree widens quickly, more diverse scenarios explored
+  - **Smaller alpha** (e.g., 0.3-0.5): Slower growth, tree stays narrower longer → More exploitation, focuses on promising branches, fewer children per node
+- **`C_list`**: Per-layer widening multipliers for fine-grained control across tree depths
+  - Each value corresponds to a tree depth/layer (index 0 = root, 1 = depth 1, etc.)
+  - **Larger values**: Allow more children at that layer → more exploration at that depth
+  - **Smaller values**: Restrict children at that layer → more exploitation at that depth
+  - Typically increases with depth (as shown) to allow more exploration deeper in tree
+  - **Design rationale**: Progressive increase (0.4→0.7) restricts shallow tree width to prevent combinatorial explosion, while allowing deeper exploration for fine-tuning obstacle placements as the search space becomes more constrained
+  - Must have length ≥ `max_obstacles` to cover all expected tree depths
+
+### Notes
+
 - Paths may be absolute or relative to the project root.
 - On Windows, prefer paths like `D:/data/results/`.
-- Ensure `C_list` length covers the maximum tree depth you expect (often ≥ `max_obstacles`).
 
 ## Usage
 Basic run with default `configs/config.yaml`:
@@ -147,6 +153,10 @@ PALM/
 │  └─ logs/ 
 └─ logs/ (created at runtime)
 ```
+
+For a detailed UML diagram of the project architecture:
+
+![UML Diagram](docs/source/_static/uml.png)
 
 
 
