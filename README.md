@@ -129,7 +129,7 @@ summarized below.
   - OS: Ubuntu 20.04
   - Memory: 32GB
   - CPU: Intel Core i7-13700K
-- **Note**: Due to the randomness in the algorithm and the non-deterministic nature of the system under test, results may vary between runs
+- **Note**: Due to the randomness in the algorithm and the non-deterministic nature of the system under test, results may vary between runs. If guaranteeing determinism is important, users can set the random seed of MCTS and use a simulator that provides more deterministic results.
 
 ### Running the Experiment
 To reproduce the results, run:
