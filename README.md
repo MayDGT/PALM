@@ -75,23 +75,23 @@ All runtime parameters are configured in `configs/config.yaml`.
 
 ```yaml
 ### Core inputs
-mission_yaml: "case_studies/mission1.yaml"  # Path to mission YAML (relative to project root)
-budget: 100                                  # Total number of MCTS iterations
-tests_folder: "generated_tests"              # Output folder for test artifacts
+mission_yaml: "case_studies/mission1.yaml"    # Path to mission YAML (relative to project root)
+budget: 100                                   # Total number of MCTS iterations
+tests_folder: "generated_tests"               # Output folder for test artifacts
 
 ### Scenario hyperparameters
-max_obstacles: 3                             # Maximum obstacles before terminal state
+max_obstacles: 3                              # Maximum obstacles before terminal state
 
 ### MCTS hyperparameters
 ## UCB1
-exploration_rate: 0.70710678                 # Exploration constant (~ 1 / sqrt(2))
+exploration_rate: 0.70710678                  # Exploration constant (~ 1 / sqrt(2))
 
 ## Progressive Widening
-alpha: 0.5                                   # Exponent
-C_list: [0.4, 0.5, 0.6, 0.7]                # Per-layer multipliers
+alpha: 0.5                                    # Exponent
+C_list: [0.4, 0.5, 0.6, 0.7]                  # Per-layer multipliers
 
 ### Reproducibility
-random_seed: 42                              # Random seed (0 = non-deterministic, >0 = fixed seed)
+random_seed: 42                               # Random seed (0 = non-deterministic, >0 = fixed seed)
 ```
 
 ### Parameter Details
