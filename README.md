@@ -30,7 +30,7 @@ conda activate palm
 
 ```bash
 # Clone the Aerialist repository
-git clone https://github.com/skhatiri/Aerialist.git
+git clone git@github.com:skhatiri/Aerialist.git
 cd Aerialist
 
 # Checkout the version used in our experiments
@@ -59,11 +59,10 @@ mkdir -p results
 cd Aerialist/samples
 ```
 
-3) Clone this project and install dependencies
+3) Clone this project
 ```bash
-git clone https://github.com/MayDGT/PALM.git
+git clone git@github.com:MayDGT/PALM.git
 cd PALM
-pip install -r requirements.txt
 ```
 
 4) Create the required directories
