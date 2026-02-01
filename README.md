@@ -16,7 +16,8 @@ This mechanism uses three parameters: `C` (scaling constant), `alpha` (exponent 
 ## Requirements
 - Conda (Miniconda/Anaconda)
 - Python 3.9+
-- Aerialist (runtime)
+- Docker
+- Aerialist（v1.0）
 
 ## Installation
 1) Create and activate a conda environment named `palm`
@@ -25,8 +26,34 @@ conda create -n palm python=3.9 -y
 conda activate palm
 ```
 
-2) Install Aerialist project (runtime)
-- Follow the official guide: https://github.com/skhatiri/Aerialist#using-hosts-cli
+2) Follow the steps below to install Aerialist (v1.0)
+
+```bash
+# Clone the Aerialist repository
+git clone https://github.com/skhatiri/Aerialist.git
+cd Aerialist
+
+# Checkout the version used in our experiments
+git checkout v1.0
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Configure environment variables
+cp template.env .env
+
+# Set Docker image version in .env file (required)
+# Linux: sed -i 's|DOCKER_IMG=.*|DOCKER_IMG=skhatiri/aerialist:1.0|' .env
+# macOS: sed -i '' 's|DOCKER_IMG=.*|DOCKER_IMG=skhatiri/aerialist:1.0|' .env
+sed -i 's|DOCKER_IMG=.*|DOCKER_IMG=skhatiri/aerialist:1.0|' .env 2>/dev/null || sed -i '' 's|DOCKER_IMG=.*|DOCKER_IMG=skhatiri/aerialist:1.0|' .env
+
+# Pull the corresponding Docker image
+docker pull skhatiri/aerialist:1.0
+
+# Prepare output directory
+mkdir -p results
+```
+
 - Enter its samples folder:
 ```bash
 cd Aerialist/samples
@@ -41,7 +68,7 @@ pip install -r requirements.txt
 
 4) Create the required directories
 ```bash
-mkdir -p logs results/logs
+mkdir -p logs results
 ```
 
 ## Configuration
@@ -49,37 +76,36 @@ All runtime parameters are configured in `configs/config.yaml`.
 
 ```yaml
 ### Core inputs
-# Path to mission YAML used by `ScenarioState` and `MCTS`.
-# This path is resolved relative to the project root.
-mission_yaml: "case_studies/mission1.yaml"
-
-# Total number of MCTS iterations (total simulations allowed)
-budget: 100
-
-# Parent folder to store generated test artifacts (yaml, ulg, png)
-tests_folder: "generated_tests"
+mission_yaml: "case_studies/mission1.yaml"  # Path to mission YAML (relative to project root)
+budget: 100                                  # Total number of MCTS iterations
+tests_folder: "generated_tests"              # Output folder for test artifacts
 
 ### Scenario hyperparameters
-# Maximum number of obstacles allowed in a scenario before it is considered terminal
-max_obstacles: 3
+max_obstacles: 3                             # Maximum obstacles before terminal state
 
 ### MCTS hyperparameters
-# UCB1 exploration constant (higher favors exploration)
-exploration_rate: 0.70710678  # ~ 1 / sqrt(2)
+## UCB1
+exploration_rate: 0.70710678                 # Exploration constant (~ 1 / sqrt(2))
 
-# Progressive widening: scaling constant (C), exponent (alpha), and per-layer widening multipliers (C_list)
-# The progressive widening formula: max_children = C_list[layer] * (visits ** alpha)
-C: 0.5                    # Scaling constant (stored but currently not directly used; C_list is used instead)
-alpha: 0.5                # Exponent controlling how visit count affects allowed children
-C_list: [0.4, 0.5, 0.6, 0.7]  # Per-layer widening multipliers for fine-grained control across tree depths
-random_seed: 42            # Random seed for reproducibility (0 = no seed/non-deterministic, positive int = fixed seed for reproducible results)
+## Progressive Widening
+alpha: 0.5                                   # Exponent
+C_list: [0.4, 0.5, 0.6, 0.7]                # Per-layer multipliers
+
+### Reproducibility
+random_seed: 42                              # Random seed (0 = non-deterministic, >0 = fixed seed)
 ```
 
 ### Parameter Details
 
+**UCB1 Parameters:**
+
+- **`exploration_rate`**: Exploration constant in the UCB1 formula that balances exploration vs exploitation
+  - **Higher values** (e.g., 1.0-2.0): Favors exploration → More likely to visit less-explored nodes, broader search coverage, may find unexpected solutions
+  - **Lower values** (e.g., 0.1-0.5): Favors exploitation → Focuses on promising nodes with high rewards, deeper search in promising branches, faster convergence
+  - **Default value** (~0.707): Approximately 1/√2, a commonly used balanced value in MCTS algorithms
+
 **Progressive Widening Parameters:**
 
-- **`C`**: Scaling constant (stored but currently not directly used; `C_list` is used instead)
 - **`alpha`**: Exponent controlling how visit count affects allowed children
   - **Larger alpha** (e.g., 0.7-1.0): Faster growth of allowed children as visits increase → More exploration, tree widens quickly, more diverse scenarios explored
   - **Smaller alpha** (e.g., 0.3-0.5): Slower growth, tree stays narrower longer → More exploitation, focuses on promising branches, fewer children per node
@@ -91,32 +117,19 @@ random_seed: 42            # Random seed for reproducibility (0 = no seed/non-de
   - **Design rationale**: Progressive increase (0.4→0.7) restricts shallow tree width to prevent combinatorial explosion, while allowing deeper exploration for fine-tuning obstacle placements as the search space becomes more constrained
   - Must have length ≥ `max_obstacles` to cover all expected tree depths
 
-### Notes
-
-- Paths may be absolute or relative to the project root.
-- On Windows, prefer paths like `D:/data/results/`.
-
-## Usage
-Basic run with default `configs/config.yaml`:
-```bash
-python main.py
-```
-
-Output:
-- Results saved under `<tests_folder>/<timestamp>/` as:
-  - `test_i.yaml`: Generated test case
-  - `test_i.ulg`: Flight log
-  - `test_i.png`: Plot
-
-**Note**: The tests_folder (e.g., `generated_tests`) is automatically created if it doesn't exist.
 
 ## Reproducibility
 Using the default configuration in `configs/config.yaml` (with `budget: 100`), PALM will generate 100 test scenarios. The expected outputs and performance are 
 summarized below.
 
+### Running the Experiment
+To reproduce the results, run:
+```bash
+python main.py
+```
+
 ### Output Structure
-- **`results/`**: Contains 100 scenario plot images 
-- **`results/logs/`**: Contains 100 scenario flight logs 
+- **`results/`**: Stores all generated plots and corresponding flight logs.
 - **`generated_tests/<timestamp>/`**: Contains failure cases only, each with:
   - `test_i.yaml`: Generated test case configuration
   - `test_i.png`: Scenario visualization
@@ -129,13 +142,7 @@ summarized below.
   - OS: Ubuntu 20.04
   - Memory: 32GB
   - CPU: Intel Core i7-13700K
-- **Note**: Due to the randomness in the algorithm and the non-deterministic nature of the system under test, results may vary between runs. If guaranteeing determinism is important, users can set the random seed of MCTS and use a simulator that provides more deterministic results.
-
-### Running the Experiment
-To reproduce the results, run:
-```bash
-python main.py
-```
+- **Note**: Due to the randomness in the algorithm and the non-deterministic nature of the system under test, results may vary between runs. To eliminate randomness, users can fix the random seed used by MCTS.
 
 ## Project structure
 ```

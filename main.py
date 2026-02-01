@@ -11,6 +11,11 @@ import math
 from datetime import datetime
 from typing import Any, Dict
 
+# Add project root to Python path to enable importing aerialist module
+_project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+if _project_root not in sys.path:
+    sys.path.insert(0, _project_root)
+
 from palm.mcts import MCTS
 
 
