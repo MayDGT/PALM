@@ -20,10 +20,14 @@ This mechanism uses three parameters: `C` (scaling constant), `alpha` (exponent 
 - Aerialist（v1.0）
 
 ## Installation
+
+### Local Installation
+
 1) Create and activate a conda environment named `palm`
 ```bash
 conda create -n palm python=3.9 -y
 conda activate palm
+pip install --upgrade munch pip setuptools wheel
 ```
 
 2) Follow the steps below to install Aerialist (v1.0)
@@ -54,13 +58,13 @@ docker pull skhatiri/aerialist:1.0
 mkdir -p results
 ```
 
-- Enter its samples folder:
-```bash
-cd Aerialist/samples
-```
+**Note:** If the Aerialist Docker image is incompatible with your system, you can follow the [local installation guide](https://github.com/skhatiri/Aerialist?tab=readme-ov-file#local-test-execution) to install Aerialist locally instead. 
+- The local installation will create an Aerialist conda environment, so you can skip step 1 (creating the `palm` conda environment).
+- Additionally, you need to change the `AGENT` configuration in `palm/testcase.py` from `AgentConfig.DOCKER` to `AgentConfig.LOCAL` (line 13).
 
-3) Clone this project
+3) Enter samples folder and clone this project
 ```bash
+cd samples
 git clone git@github.com:MayDGT/PALM.git
 cd PALM
 ```
@@ -68,6 +72,18 @@ cd PALM
 4) Create the required directories
 ```bash
 mkdir -p logs results
+```
+
+### Docker Installation
+
+If you prefer to use Docker, you can skip the local installation steps above and use the pre-built Docker image instead:
+
+```bash
+# Pull the Aerialist Docker image
+docker pull skhatiri/aerialist:1.0
+
+# Pull the PALM Docker image
+docker pull maydgt/palm:1.0
 ```
 
 ## Configuration
@@ -122,9 +138,26 @@ Using the default configuration in `configs/config.yaml` (with `budget: 100`), P
 summarized below.
 
 ### Running the Experiment
-To reproduce the results, run:
+
+**Local Execution:**
 ```bash
 python main.py
+```
+
+**Docker Execution:**
+
+1. Create local output directories (replace `<YOUR-PATH>` with your desired directory):
+```bash
+mkdir -p <YOUR-PATH>/generated_tests <YOUR-PATH>/results
+```
+
+2. Run the Docker container (replace `<YOUR-PATH>` with the same path used above):
+```bash
+docker run -it \
+  -v <YOUR-PATH>/generated_tests:/workspace/Aerialist/samples/PALM/generated_tests \
+  -v <YOUR-PATH>/results:/workspace/Aerialist/samples/PALM/results \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  palm:1.0
 ```
 
 ### Output Structure
