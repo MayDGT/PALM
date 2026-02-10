@@ -16,7 +16,7 @@ This mechanism uses three parameters: `C` (scaling constant), `alpha` (exponent 
 ## Requirements
 - Conda (Miniconda/Anaconda)
 - Python 3.9+
-- Docker
+- [Docker](https://docs.docker.com/engine/install/)
 - Aerialist（v1.0）
 
 ## Installation
