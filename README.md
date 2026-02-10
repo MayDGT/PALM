@@ -139,12 +139,12 @@ summarized below.
 
 ### Running the Experiment
 
-**Local Execution:**
+#### Local Execution
 ```bash
 python main.py
 ```
 
-**Docker Execution:**
+#### Docker Execution
 
 1. Create local output directories (replace `<YOUR-PATH>` with your desired directory):
 ```bash
