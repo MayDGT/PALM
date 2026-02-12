@@ -1,5 +1,5 @@
 # PALM: An MCTS-based Tool for Testing Unmanned Aerial Vehicles
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18618049.svg)](https://doi.org/10.5281/zenodo.18618049)
 ![Python 3.9](https://img.shields.io/badge/python-3.9+-blue?logo=python)
 [![License](https://img.shields.io/badge/license-GPL--3.0-green)](https://choosealicense.com/licenses/gpl-3.0/)
 
