@@ -53,9 +53,6 @@ sed -i 's|DOCKER_IMG=.*|DOCKER_IMG=skhatiri/aerialist:1.0|' .env 2>/dev/null || 
 
 # Pull the corresponding Docker image
 docker pull skhatiri/aerialist:1.0
-
-# Prepare output directory
-mkdir -p results
 ```
 
 **Note:** If the Aerialist Docker image is incompatible with your system, you can follow the [local installation guide](https://github.com/skhatiri/Aerialist?tab=readme-ov-file#local-test-execution) to install Aerialist locally instead. 
