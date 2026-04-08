@@ -190,9 +190,14 @@ PALM/
 └─ logs/ (created at runtime)
 ```
 
-For a detailed UML diagram of the project architecture:
+A detailed UML-like class diagram of the project architecture is as follows:
 
 ![UML Diagram](docs/source/_static/uml.png)
+
+In the diagram, arrows represent navigable associatons between classes. The associations are as follows:
+- *MCTS* uses *Node* and *ScenarioState* as arguments of its methods (e.g., *select* takes as input a *Node*);
+- *ScenarioState* has a method *get_reward* that returns a *TestCase*;
+- *ScenarioState* uses the methods of *Utils* to perform 2D geometry operations in methods *...modification*.
 
 
 
