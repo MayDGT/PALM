@@ -109,6 +109,17 @@ random_seed: 42                               # Random seed (0 = non-determinist
 
 ### Parameter Details
 
+| Parameter | Type | Unit | Definition | Reference / Example |
+| --- | --- | --- | --- | --- |
+| `mission_yaml` | string (path) | N/A | Relative path to the mission configuration YAML loaded at startup. | `case_studies/mission1.yaml` |
+| `budget` | integer | iterations | Total number of MCTS iterations (one iteration = selection + expansion + simulation + backpropagation). | `100` |
+| `tests_folder` | string (path) | N/A | Output directory for generated test artifacts. | `generated_tests` |
+| `max_obstacles` | integer | obstacles | Maximum number of obstacles allowed in a scenario before reaching a terminal state. | `3` |
+| `exploration_rate` | float | unitless | UCB1 exploration constant controlling exploration vs exploitation. Higher values explore more; lower values exploit more. | Default `0.70710678` (~ `1/sqrt(2)`); common tuning range `0.1-2.0` |
+| `alpha` | float | unitless | Progressive widening exponent controlling how quickly allowed children grow with visit count. | Default `0.5`; typical range `0.3-1.0` |
+| `C_list` | list[float] | unitless | Layer-wise progressive widening multipliers (`index = tree depth`) used to scale allowed children at each depth. | `[0.4, 0.5, 0.6, 0.7]` (usually non-decreasing with depth); length should be `>= max_obstacles` |
+| `random_seed` | integer | seed id (unitless) | Random seed for reproducibility. `0` enables non-deterministic execution; `>0` fixes pseudo-random sequence. | `42` |
+
 **UCB1 Parameters:**
 
 - **`exploration_rate`**: Exploration constant in the UCB1 formula that balances exploration vs exploitation
